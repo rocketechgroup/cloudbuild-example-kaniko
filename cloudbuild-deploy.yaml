@@ -1,0 +1,9 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'build',
+            '-t', 'europe-west2-docker.pkg.dev/$PROJECT_ID/demo/${_REPO_NAME}:${_COMMIT_SHA}',
+            '-t', 'europe-west2-docker.pkg.dev/$PROJECT_ID/demo/${_REPO_NAME}:latest',
+            '.' ]
+images:
+  - 'europe-west2-docker.pkg.dev/$PROJECT_ID/demo/${_REPO_NAME}:${_COMMIT_SHA}'
+  - 'europe-west2-docker.pkg.dev/$PROJECT_ID/demo/${_REPO_NAME}:latest'

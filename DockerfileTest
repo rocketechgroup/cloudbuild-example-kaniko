@@ -19,9 +19,3 @@ RUN poetry install
 COPY helloapp helloapp
 COPY tests tests
 RUN poetry run pytest
-
-FROM base as prod
-COPY poetry.lock pyproject.toml ./
-RUN poetry install --no-dev
-
-COPY helloapp helloapp
