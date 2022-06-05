@@ -3,6 +3,6 @@ steps:
     args:
       - --no-push
       - --cache-repo=europe-west2-docker.pkg.dev/$PROJECT_ID/demo/${_REPO_NAME}/cache
-      - --dockerfile=DockerfileTest
+      - --dockerfile=Dockerfile
       - --cache=true
       - --cache-ttl=168h
