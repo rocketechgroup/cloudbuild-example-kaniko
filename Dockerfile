@@ -11,19 +11,20 @@ WORKDIR $HOME_DIR
 
 RUN pip install poetry==$POETRY_VERSION
 ENV PATH=$HOME_DIR/.local/bin:$PATH
+RUN python -m venv venv
 
 # ************* TEST BUILD *************
 FROM base as test
 COPY poetry.lock pyproject.toml ./
-RUN poetry install
 
-COPY helloapp helloapp
-COPY tests tests
-RUN poetry run pytest
+RUN . venv/bin/activate && poetry install
+COPY main.py main_test.py ./
+RUN . venv/bin/activate && poetry run pytest
 
 # ************* PROD BUILD *************
 FROM base as prod
 COPY poetry.lock pyproject.toml ./
-RUN poetry install --no-dev
+RUN . venv/bin/activate && poetry install --no-dev
 
-COPY helloapp helloapp
+COPY main.py ./
+CMD venv/bin/gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 main:app

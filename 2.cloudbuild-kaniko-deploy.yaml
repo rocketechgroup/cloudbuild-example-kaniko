@@ -1,0 +1,15 @@
+steps:
+  - name: 'gcr.io/kaniko-project/executor:latest'
+    args:
+      - --destination=europe-west2-docker.pkg.dev/$PROJECT_ID/demo/${_REPO_NAME}:${_COMMIT_SHA}_${_TS}
+      - --destination=europe-west2-docker.pkg.dev/$PROJECT_ID/demo/${_REPO_NAME}
+      - --dockerfile=Dockerfile
+      - --cache=true
+      - --cache-ttl=168h
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args: [ 'run', 'deploy', 'helloapp', '--image', 'europe-west2-docker.pkg.dev/$PROJECT_ID/demo/${_REPO_NAME}:${_COMMIT_SHA}_${_TS}', '--region', 'europe-west2' ]
+
+options:
+  machineType: 'E2_HIGHCPU_8'

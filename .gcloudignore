@@ -1,2 +1,7 @@
 venv
 .pytest_cache
+README.md
+*.pyc
+*.pyo
+*.pyd
+__pycache__
